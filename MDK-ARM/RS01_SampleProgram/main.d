@@ -35,3 +35,5 @@ rs01_sampleprogram\main.o: ../User/DEBUG/debugc.h
 rs01_sampleprogram\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 rs01_sampleprogram\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 rs01_sampleprogram\main.o: ../User/RS/RobStride.h
+rs01_sampleprogram\main.o: ../User/protocol.h
+rs01_sampleprogram\main.o: ../User/Jetson/jetson_comm.h

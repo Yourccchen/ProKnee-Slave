@@ -28,6 +28,10 @@
 /* USER CODE BEGIN Includes */
 #include "debugc.h"
 #include "RobStride.h"
+extern "C" {
+#include "protocol.h"
+#include "jetson_comm.h"
+}
 
 /* USER CODE END Includes */
 
@@ -48,16 +52,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-#define JETSON_DMA_BUFFER_SIZE 255  // DMA 缓冲区大小 (必须和 CubeMX 里设置的一致)
-
-// DMA 循环写入的缓冲区
-static uint8_t jetson_dma_buffer[JETSON_DMA_BUFFER_SIZE]; 
-
-// 我们的 "读取指针"，记录我们从缓冲区读到了哪里
-static uint32_t dma_read_ptr = 0; 
-
-extern UART_HandleTypeDef huart3;      // CubeMX 自动定义
-extern DMA_HandleTypeDef hdma_usart3_rx; // CubeMX 自动定义	
+CommDataStruct g_stm_tx_data;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -85,7 +80,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 //    DEBUGC_UartInit();
-
+  JETSON_Init();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -123,62 +118,34 @@ int main(void)
   HAL_CAN_Start(&hcan); 
   HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING); 
 
-    HAL_UART_Receive_DMA(&huart3, jetson_dma_buffer, JETSON_DMA_BUFFER_SIZE);
 
-    // 初始化我们的 "读取指针"
-    dma_read_ptr = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      // 获取 DMA 的 "当前写入指针" 在哪里
-    // CNDTR 寄存器是 "剩余多少个"，所以我们用 "总大小 - 剩余" 来得到 "写了多少个"
-    // % JETSON_DMA_BUFFER_SIZE 是为了处理循环回滚
-    uint32_t dma_write_ptr = (JETSON_DMA_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_usart3_rx)) % JETSON_DMA_BUFFER_SIZE;
+    // 1. 每一轮循环都调用轮询器,它会在后台自动接收并解析数据包
 
-    // 检查 "写入指针" 是否不等于 "读取指针"
-    // 如果不相等，说明 DMA 已经写入了新数据
-    if (dma_read_ptr != dma_write_ptr)
+    JETSON_PollReceiver();
+
+    // 2. 检查是否有新数据包
+    if (g_new_jetson_data_flag)
     {
-        // 我们有新数据！
+        //我们收到了一个完整的结构体
+        g_new_jetson_data_flag = 0; // 清除标志位
+
+        // 3. 使用 `usart_printf` (USART2) 打印收到的数据
+        usart_printf("Jetson Struct RX: angle_target=%.2f, speed_target=%.2f\r\n", 
+                     g_jetson_rx_data.chf[0], 
+                     g_jetson_rx_data.chf[1]);
         
-        // --- 2. 在这里处理新数据 ---
-        // 新数据位于 [dma_read_ptr] 到 [dma_write_ptr - 1] 的位置
+        // 4. 作为回应，准备并发送数据给 Jetson,填充我们要发送的数据
+        g_stm_tx_data.chf[0]=1.0f;
         
-        // 我们用 usart_printf (USART2) 把它打印出来
-        
-        if (dma_write_ptr > dma_read_ptr)
-        {
-            // 情况 A：没有回滚 (例如：read=10, write=50)
-            // 我们直接打印 [10] 到 [49] 的数据
-            usart_printf("%.*s", 
-                         (dma_write_ptr - dma_read_ptr), 
-                         &jetson_dma_buffer[dma_read_ptr]);
-        }
-        else
-        {
-            // 情况 B：DMA 已经回滚 (例如：read=50, write=10)
-            // 我们需要分两段打印
-            
-            // 1. 打印 [50] 到缓冲区末尾
-            usart_printf("%.*s", 
-                         (JETSON_DMA_BUFFER_SIZE - dma_read_ptr), 
-                         &jetson_dma_buffer[dma_read_ptr]);
-            
-            // 2. 打印 [0] 到 [9]
-            usart_printf("%.*s", 
-                         dma_write_ptr, 
-                         &jetson_dma_buffer[0]);
-        }
-        
-        // --- 3. 更新我们的 "读取指针" ---
-        // 处理完毕后，将 "读取指针" 移动到 "写入指针" 的位置
-        // 表示我们已经读完了所有数据
-        dma_read_ptr = dma_write_ptr;
-    }
-        
+        // 调用发送函数
+        HAL_StatusTypeDef tx_status = JETSON_SendData(&g_stm_tx_data);
+    } 
 //    usart_printf("%f,%f,%f\r\n",RobStride_01.Pos_Info.Angle,RobStride_01.Pos_Info.Speed,RobStride_01.Pos_Info.Torque);
 //    uint8_t test_message[] = "Test123\r\n";
 //    HAL_UART_Transmit(&huart2, test_message, sizeof(test_message) - 1, 100);  

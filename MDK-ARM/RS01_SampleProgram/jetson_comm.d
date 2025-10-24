@@ -1,5 +1,7 @@
 rs01_sampleprogram\jetson_comm.o: ..\User\Jetson\jetson_comm.c
 rs01_sampleprogram\jetson_comm.o: ..\User\Jetson\jetson_comm.h
+rs01_sampleprogram\jetson_comm.o: ../User/protocol.h
+rs01_sampleprogram\jetson_comm.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 rs01_sampleprogram\jetson_comm.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 rs01_sampleprogram\jetson_comm.o: ../Inc/stm32f1xx_hal_conf.h
 rs01_sampleprogram\jetson_comm.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
@@ -7,7 +9,6 @@ rs01_sampleprogram\jetson_comm.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_
 rs01_sampleprogram\jetson_comm.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 rs01_sampleprogram\jetson_comm.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h
 rs01_sampleprogram\jetson_comm.o: ../Drivers/CMSIS/Include/core_cm3.h
-rs01_sampleprogram\jetson_comm.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 rs01_sampleprogram\jetson_comm.o: ../Drivers/CMSIS/Include/cmsis_version.h
 rs01_sampleprogram\jetson_comm.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 rs01_sampleprogram\jetson_comm.o: ../Drivers/CMSIS/Include/cmsis_armcc.h

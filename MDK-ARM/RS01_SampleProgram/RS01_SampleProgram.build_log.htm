@@ -21,17 +21,22 @@ Target DLL:      Segger\JL2CM3.dll V2.99.40.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-D:\Programs\ProsSlave\SampleProgram\MDK-ARM\RS01_SampleProgram.uvprojx
+D:\Programs\ProsSlave\MDK-ARM\RS01_SampleProgram.uvprojx
 Project File Date:  10/24/2025
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'RS01_SampleProgram'
 compiling main.c...
+../User/protocol.h(29): warning:  #1-D: last line of file ends without a newline
+  #endif
+../User/Jetson/jetson_comm.h(38): warning:  #1-D: last line of file ends without a newline
+  #endif //__JETSON_COMM_H
+../Src/main.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=26624 RO-data=980 RW-data=44 ZI-data=4444  
+Program Size: Code=27160 RO-data=980 RW-data=52 ZI-data=4868  
 FromELF: creating hex file...
-"RS01_SampleProgram\RS01_SampleProgram.axf" - 0 Error(s), 0 Warning(s).
+"RS01_SampleProgram\RS01_SampleProgram.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -55,7 +60,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

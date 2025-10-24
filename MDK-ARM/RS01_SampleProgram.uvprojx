@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xE</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../User/RS;../User/DEBUG;../User/Jetson</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../User/RS;../User/DEBUG;../User/Jetson;../User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1488,6 +1488,11 @@
               <FileName>jetson_comm.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\User\Jetson\jetson_comm.h</FilePath>
+            </File>
+            <File>
+              <FileName>protocol.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\protocol.h</FilePath>
             </File>
           </Files>
         </Group>
