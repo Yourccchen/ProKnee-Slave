@@ -17,6 +17,10 @@ typedef struct {
 /* RxDataStruct
 chf[0] : angle_target
 chf[1] : speed_target
+chf[2] : torque_target
+********
+chs[0] : 
+********
 chb[0] : mode
 */
 /* TxDataStruct
@@ -25,5 +29,9 @@ chf[1] : Speed
 chf[2] : Torque
 chf[3] : Temperature
 chf[4] : Resilience
+********
+chs[0] : 
+********
+chb[0] :
 */
 #endif

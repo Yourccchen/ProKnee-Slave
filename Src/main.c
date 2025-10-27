@@ -55,7 +55,6 @@ extern "C" {
 
 /* USER CODE BEGIN PV */
 CommDataStruct g_stm_tx_data;
-static float sin_angle = 0.0f;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -146,18 +145,8 @@ int main(void)
      g_stm_tx_data.chf[1]=RobStride_01.Pos_Info.Speed;
      g_stm_tx_data.chf[2]=RobStride_01.Pos_Info.Torque;
      g_stm_tx_data.chf[3]=RobStride_01.Pos_Info.Temp;
-    // --- B. 生成并填充 SIN 函数值 ---
-    // (这将临时覆盖你的 Resilience 数据)
-    float sin_value = sinf(sin_angle);
-    g_stm_tx_data.chf[4] = 10.0f * sin_value; // 赋值给 chf[4]，幅值为 10
-    
-    // --- C. 递增角度，为下一次循环做准备 ---
-    sin_angle += 0.1f; // 步进值，可以调大或调小来改变频率
-    if (sin_angle > 6.28318f) // (2 * PI)，防止溢出
-    {
-        sin_angle -= 6.28318f;
-    }
-    
+     g_stm_tx_data.chf[4] = 1.0f; // 赋值给 chf[4]，幅值为 10
+
      // 调用发送函数
      HAL_StatusTypeDef tx_status = JETSON_SendData(&g_stm_tx_data);
 //    usart_printf("%f,%f,%f\r\n",RobStride_01.Pos_Info.Angle,RobStride_01.Pos_Info.Speed,RobStride_01.Pos_Info.Torque);
@@ -181,7 +170,7 @@ int main(void)
             RobStride_01.RobStride_Motor_move_control(5, 0, 0, 0.0, 0.0);
             break;
         case 3: // PP位置模式
-            RobStride_01.RobStride_Motor_Pos_control(0.8, Debug_Param().pos_targetAngle);
+            RobStride_01.RobStride_Motor_Pos_control(1, g_jetson_rx_data.chf[0]);
             HAL_Delay(5);
             break;
         case 4:	//CSP位置模式

@@ -312,7 +312,7 @@ void RobStride_Motor::RobStride_Get_CAN_ID()
 void RobStride_Motor::RobStride_Motor_move_control(float Torque, float Angle, float Speed, float Kp, float Kd)
 {
 	uint8_t txdata[8] = {0};						   	//发送数据
-	CAN_TxHeaderTypeDef TxMessage; 					//发送邮箱
+	CAN_TxHeaderTypeDef TxMessage; 				        //发送邮箱
 	Motor_Set_All.set_Torque = Torque;
 	Motor_Set_All.set_angle = Angle;	
 	Motor_Set_All.set_speed = Speed;
