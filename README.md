@@ -2,6 +2,24 @@
 
 该项目为动力假肢的下位机部分代码
 
+**各串口用处**
+
+- **USART1:**与ADC板通信
+- **USART2:**用于DEBUG，将数据在电脑上可视化
+- **USART3:**与Jetson板通信
+
+用户自定义函数放在User文件夹
+
+/DEBUG 存放用于DEBUG打印数据的相关代码
+
+/Jetson 存放与Jetson通信的相关代码
+
+/protocol.h 定义了通用消息结构体形式
+
+/RS 存放电机控制的相关代码
+
+
+
 #### 电机主要接口说明 Main API List
 
 | 功能     | 接口名 / Function Name                                     | 简述 / Description     |

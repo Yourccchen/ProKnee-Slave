@@ -31,6 +31,7 @@ rs01_sampleprogram\main.o: ../Inc/can.h
 rs01_sampleprogram\main.o: ../Inc/dma.h
 rs01_sampleprogram\main.o: ../Inc/usart.h
 rs01_sampleprogram\main.o: ../Inc/gpio.h
+rs01_sampleprogram\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 rs01_sampleprogram\main.o: ../User/DEBUG/debugc.h
 rs01_sampleprogram\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 rs01_sampleprogram\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

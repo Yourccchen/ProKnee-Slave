@@ -26,6 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <string.h>
 #include "debugc.h"
 #include "RobStride.h"
 extern "C" {
@@ -79,8 +80,7 @@ uint8_t mode = 0;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-//    DEBUGC_UartInit();
-  JETSON_Init();
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -117,8 +117,9 @@ int main(void)
   HAL_CAN_ConfigFilter(&hcan, &CAN_FilterStrue);
   HAL_CAN_Start(&hcan); 
   HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING); 
-
-
+  
+  //    DEBUGC_UartInit();
+  JETSON_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -126,9 +127,7 @@ int main(void)
   while (1)
   {
     // 1. 每一轮循环都调用轮询器,它会在后台自动接收并解析数据包
-
     JETSON_PollReceiver();
-
     // 2. 检查是否有新数据包
     if (g_new_jetson_data_flag)
     {
@@ -136,7 +135,7 @@ int main(void)
         g_new_jetson_data_flag = 0; // 清除标志位
 
         // 3. 使用 `usart_printf` (USART2) 打印收到的数据
-        usart_printf("Jetson Struct RX: angle_target=%.2f, speed_target=%.2f\r\n", 
+        usart_printf("%.2f, %.2f\r\n", 
                      g_jetson_rx_data.chf[0], 
                      g_jetson_rx_data.chf[1]);
         
@@ -146,13 +145,14 @@ int main(void)
         // 调用发送函数
         HAL_StatusTypeDef tx_status = JETSON_SendData(&g_stm_tx_data);
     } 
+
 //    usart_printf("%f,%f,%f\r\n",RobStride_01.Pos_Info.Angle,RobStride_01.Pos_Info.Speed,RobStride_01.Pos_Info.Torque);
 //    uint8_t test_message[] = "Test123\r\n";
 //    HAL_UART_Transmit(&huart2, test_message, sizeof(test_message) - 1, 100);  
       
 //    if(state_flag==0)
 //        mode =1;
-//      usart_printf("%d\r\n",state_flag);
+    //  usart_printf("%d\r\n",state_flag);
     switch(mode)
     {
         // ===== 普通模式接口 =====
@@ -314,6 +314,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 		}
 	}	
 }
+
 /* USER CODE END 4 */
 
 /**

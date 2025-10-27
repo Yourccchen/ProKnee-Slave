@@ -29,3 +29,6 @@ rs01_sampleprogram\jetson_comm.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_
 rs01_sampleprogram\jetson_comm.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 rs01_sampleprogram\jetson_comm.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 rs01_sampleprogram\jetson_comm.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+rs01_sampleprogram\jetson_comm.o: ../User/DEBUG/debugc.h
+rs01_sampleprogram\jetson_comm.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+rs01_sampleprogram\jetson_comm.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

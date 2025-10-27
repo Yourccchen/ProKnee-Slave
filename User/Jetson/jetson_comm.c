@@ -4,7 +4,7 @@
 
 #include "jetson_comm.h"
 #include <string.h> // for memcpy
-
+#include "debugc.h"
 // --- 外部句柄 ---
 extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
@@ -80,13 +80,12 @@ static void ProcessNewByte(uint8_t byte)
     }
 }
 
+
 // --- 公共函数实现 ---
 
 void JETSON_Init(void)
 {
-    // 启动 USART3 的 DMA 循环接收
-    HAL_UART_Receive_DMA(&huart3, jetson_dma_buffer, JETSON_DMA_BUFFER_SIZE);
-    
+   HAL_UART_Receive_DMA(&huart3, jetson_dma_buffer, JETSON_DMA_BUFFER_SIZE);
     // 初始化状态机和指针
     dma_read_ptr = 0;
     parse_state = WAIT_HEADER;
@@ -97,7 +96,6 @@ void JETSON_PollReceiver(void)
 {
     // 1. 获取 DMA 当前写入到哪里了
     uint32_t dma_write_ptr = (JETSON_DMA_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_usart3_rx)) % JETSON_DMA_BUFFER_SIZE;
-
     // 2. 循环处理所有新收到的字节
     while (dma_read_ptr != dma_write_ptr)
     {
