@@ -26,6 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <math.h>
 #include <string.h>
 #include "debugc.h"
 #include "RobStride.h"
@@ -54,6 +55,7 @@ extern "C" {
 
 /* USER CODE BEGIN PV */
 CommDataStruct g_stm_tx_data;
+static float sin_angle = 0.0f;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -118,7 +120,7 @@ int main(void)
   HAL_CAN_Start(&hcan); 
   HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING); 
   
-  //    DEBUGC_UartInit();
+  DEBUGC_UartInit();
   JETSON_Init();
   /* USER CODE END 2 */
 
@@ -138,14 +140,26 @@ int main(void)
         usart_printf("%.2f, %.2f\r\n", 
                      g_jetson_rx_data.chf[0], 
                      g_jetson_rx_data.chf[1]);
-        
-        // 4. 作为回应，准备并发送数据给 Jetson,填充我们要发送的数据
-        g_stm_tx_data.chf[0]=1.0f;
-        
-        // 调用发送函数
-        HAL_StatusTypeDef tx_status = JETSON_SendData(&g_stm_tx_data);
     } 
-
+    // 4. 作为回应，准备并发送数据给 Jetson,填充我们要发送的数据
+     g_stm_tx_data.chf[0]=RobStride_01.Pos_Info.Angle;
+     g_stm_tx_data.chf[1]=RobStride_01.Pos_Info.Speed;
+     g_stm_tx_data.chf[2]=RobStride_01.Pos_Info.Torque;
+     g_stm_tx_data.chf[3]=RobStride_01.Pos_Info.Temp;
+    // --- B. 生成并填充 SIN 函数值 ---
+    // (这将临时覆盖你的 Resilience 数据)
+    float sin_value = sinf(sin_angle);
+    g_stm_tx_data.chf[4] = 10.0f * sin_value; // 赋值给 chf[4]，幅值为 10
+    
+    // --- C. 递增角度，为下一次循环做准备 ---
+    sin_angle += 0.1f; // 步进值，可以调大或调小来改变频率
+    if (sin_angle > 6.28318f) // (2 * PI)，防止溢出
+    {
+        sin_angle -= 6.28318f;
+    }
+    
+     // 调用发送函数
+     HAL_StatusTypeDef tx_status = JETSON_SendData(&g_stm_tx_data);
 //    usart_printf("%f,%f,%f\r\n",RobStride_01.Pos_Info.Angle,RobStride_01.Pos_Info.Speed,RobStride_01.Pos_Info.Torque);
 //    uint8_t test_message[] = "Test123\r\n";
 //    HAL_UART_Transmit(&huart2, test_message, sizeof(test_message) - 1, 100);  

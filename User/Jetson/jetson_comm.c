@@ -27,9 +27,7 @@ static uint32_t struct_index = 0;
 
 // --- 公共变量定义 ---
 CommDataStruct g_jetson_rx_data; // 接收到的数据结构体
-volatile uint8_t g_new_jetson_data_flag = 0;// 接收完数据标志位
-
-
+volatile uint8_t g_new_jetson_data_flag = 0;// 接收完成标志位
 /**
  * @brief (私有) 内部调用的数据处理函数
  */
