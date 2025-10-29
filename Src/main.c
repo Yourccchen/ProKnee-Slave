@@ -33,6 +33,7 @@
 extern "C" {
 #include "protocol.h"
 #include "jetson_comm.h"
+#include "adc_comm.h"
 }
 
 /* USER CODE END Includes */
@@ -121,40 +122,45 @@ int main(void)
   
   DEBUGC_UartInit();
   JETSON_Init();
+  ADC_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // 1. 每一轮循环都调用轮询器,它会在后台自动接收并解析数据包
+    // 每一轮循环都调用轮询器,它会在后台自动接收并解析数据包
     JETSON_PollReceiver();
-    // 2. 检查是否有新数据包
+    ADC_PollReceiver();
     if (g_new_jetson_data_flag)
     {
-        //我们收到了一个完整的结构体
         g_new_jetson_data_flag = 0; // 清除标志位
-
-        // 3. 使用 `usart_printf` (USART2) 打印收到的数据
-        usart_printf("%.2f, %.2f\r\n", 
-                     g_jetson_rx_data.chf[0], 
-                     g_jetson_rx_data.chf[1]);
+      //  usart_printf("%.2f, %.2f\r\n", 
+      //               g_jetson_rx_data.chf[0], 
+      //               g_jetson_rx_data.chf[1]);
     } 
-    // 4. 作为回应，准备并发送数据给 Jetson,填充我们要发送的数据
+
+    // 准备并发送数据给 Jetson,填充要发送的数据
      g_stm_tx_data.chf[0]=RobStride_01.Pos_Info.Angle;
      g_stm_tx_data.chf[1]=RobStride_01.Pos_Info.Speed;
      g_stm_tx_data.chf[2]=RobStride_01.Pos_Info.Torque;
-     g_stm_tx_data.chf[3]=RobStride_01.Pos_Info.Temp;
-     g_stm_tx_data.chf[4] = 1.0f; // 赋值给 chf[4]，幅值为 10
+     g_stm_tx_data.chf[3]=ADC_GetTorque();     
+     g_stm_tx_data.chf[4]=RobStride_01.Pos_Info.Temp;
+     g_stm_tx_data.chf[5]=ADC_GetResilience(); 
 
+    usart_printf("%f, %f\r\n", 
+                      ADC_GetTorque(), 
+                      ADC_GetResilience());
+    
      // 调用发送函数
-     HAL_StatusTypeDef tx_status = JETSON_SendData(&g_stm_tx_data);
-//    usart_printf("%f,%f,%f\r\n",RobStride_01.Pos_Info.Angle,RobStride_01.Pos_Info.Speed,RobStride_01.Pos_Info.Torque);
-//    uint8_t test_message[] = "Test123\r\n";
-//    HAL_UART_Transmit(&huart2, test_message, sizeof(test_message) - 1, 100);  
+     JETSON_SendData(&g_stm_tx_data);
+    
+    //  usart_printf("%f,%f,%f\r\n",RobStride_01.Pos_Info.Angle,RobStride_01.Pos_Info.Speed,RobStride_01.Pos_Info.Torque);
+    //  uint8_t test_message[] = "Test123\r\n";
+    //  HAL_UART_Transmit(&huart2, test_message, sizeof(test_message) - 1, 100);  
       
-//    if(state_flag==0)
-//        mode =1;
+    //  if(state_flag==0)
+    //      mode =1;
     //  usart_printf("%d\r\n",state_flag);
     switch(mode)
     {

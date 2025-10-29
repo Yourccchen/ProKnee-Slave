@@ -26,9 +26,10 @@ chb[0] : mode
 /* TxDataStruct
 chf[0] : Angle
 chf[1] : Speed
-chf[2] : Torque
-chf[3] : Temperature
-chf[4] : Resilience
+chf[2] : Torque_Motor
+chf[3] : Torque_Sensor
+chf[4] : Temperature
+chf[5] : Resilience
 ********
 chs[0] : 
 ********
