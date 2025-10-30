@@ -31,7 +31,7 @@ chf[3] : Torque_Sensor
 chf[4] : Temperature
 chf[5] : Resilience
 ********
-chs[0] : 
+chs[0] : foot_pressure
 ********
 chb[0] :
 */

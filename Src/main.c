@@ -135,9 +135,6 @@ int main(void)
     if (g_new_jetson_data_flag)
     {
         g_new_jetson_data_flag = 0; // 清除标志位
-      //  usart_printf("%.2f, %.2f\r\n", 
-      //               g_jetson_rx_data.chf[0], 
-      //               g_jetson_rx_data.chf[1]);
     } 
 
     // 准备并发送数据给 Jetson,填充要发送的数据
@@ -148,9 +145,11 @@ int main(void)
      g_stm_tx_data.chf[4]=RobStride_01.Pos_Info.Temp;
      g_stm_tx_data.chf[5]=ADC_GetResilience(); 
 
-    usart_printf("%f, %f\r\n", 
-                      ADC_GetTorque(), 
-                      ADC_GetResilience());
+    usart_printf("%.2f,%.2f,%.2f, %.2f\r\n", 
+                      g_jetson_rx_data.chf[0],
+                      g_stm_tx_data.chf[0],
+                      g_stm_tx_data.chf[2], 
+                      g_stm_tx_data.chf[3]);
     
      // 调用发送函数
      JETSON_SendData(&g_stm_tx_data);
@@ -158,10 +157,7 @@ int main(void)
     //  usart_printf("%f,%f,%f\r\n",RobStride_01.Pos_Info.Angle,RobStride_01.Pos_Info.Speed,RobStride_01.Pos_Info.Torque);
     //  uint8_t test_message[] = "Test123\r\n";
     //  HAL_UART_Transmit(&huart2, test_message, sizeof(test_message) - 1, 100);  
-      
-    //  if(state_flag==0)
-    //      mode =1;
-    //  usart_printf("%d\r\n",state_flag);
+
     switch(mode)
     {
         // ===== 普通模式接口 =====
@@ -176,7 +172,7 @@ int main(void)
             RobStride_01.RobStride_Motor_move_control(5, 0, 0, 0.0, 0.0);
             break;
         case 3: // PP位置模式
-            RobStride_01.RobStride_Motor_Pos_control(1, g_jetson_rx_data.chf[0]);
+            RobStride_01.RobStride_Motor_Pos_control(2, g_jetson_rx_data.chf[0]);
             HAL_Delay(5);
             break;
         case 4:	//CSP位置模式
@@ -257,7 +253,6 @@ int main(void)
         default:
             break;
     }
-		mode = 3;
 		HAL_Delay(50);
     /* USER CODE END WHILE */
 

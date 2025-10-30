@@ -1,7 +1,7 @@
 Dependencies for Project 'RS01_SampleProgram', Target 'RS01_SampleProgram': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
 F (startup_stm32f103xe.s)(0x69009EFB)(--cpu Cortex-M3 -g --apcs=interwork -I.\RTE\_RS01_SampleProgram-ID:\Keil_v5\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Keil_v5\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include--pd "__UVISION_VERSION SETA 536" --pd "_RTE_ SETA 1" --pd "STM32F10X_HD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xe.lst --xref -o rs01_sampleprogram\startup_stm32f103xe.o --depend rs01_sampleprogram\startup_stm32f103xe.d)
-F (../Src/main.c)(0x6900B003)(--cpp -c --cpu Cortex-M3 -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User/RS -I ../User/DEBUG -I ../User/Jetson -I ../User -I ../User/ADC-I.\RTE\_RS01_SampleProgram-ID:\Keil_v5\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Keil_v5\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o rs01_sampleprogram\main.o --omf_browse rs01_sampleprogram\main.crf --depend rs01_sampleprogram\main.d)
+F (../Src/main.c)(0x69030A4D)(--cpp -c --cpu Cortex-M3 -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User/RS -I ../User/DEBUG -I ../User/Jetson -I ../User -I ../User/ADC-I.\RTE\_RS01_SampleProgram-ID:\Keil_v5\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Keil_v5\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o rs01_sampleprogram\main.o --omf_browse rs01_sampleprogram\main.crf --depend rs01_sampleprogram\main.d)
 I (../Inc/main.h)(0x68FF34D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x68F75833)
 I (../Inc/stm32f1xx_hal_conf.h)(0x68F8700A)
@@ -39,7 +39,7 @@ I (../User/DEBUG/debugc.h)(0x68F87456)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x60252376)
 I (../User/RS/RobStride.h)(0x68761209)
-I (../User/protocol.h)(0x69004D20)
+I (../User/protocol.h)(0x6902F8F2)
 I (../User/Jetson/jetson_comm.h)(0x68FB3A52)
 I (../User/ADC/adc_comm.h)(0x690047DA)
 F (../Src/gpio.c)(0x69009EF7)(--c99 -c --cpu Cortex-M3 -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User/RS -I ../User/DEBUG -I ../User/Jetson -I ../User -I ../User/ADC-I.\RTE\_RS01_SampleProgram-ID:\Keil_v5\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Keil_v5\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o rs01_sampleprogram\gpio.o --omf_browse rs01_sampleprogram\gpio.crf --depend rs01_sampleprogram\gpio.d)
@@ -189,7 +189,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x68F75833)
 I (../Inc/stm32f1xx_it.h)(0x68FF5A0D)
 I (../Inc/usart.h)(0x68FA17E8)
 I (../User/Jetson/jetson_comm.h)(0x68FB3A52)
-I (../User/protocol.h)(0x69004D20)
+I (../User/protocol.h)(0x6902F8F2)
 F (../Src/stm32f1xx_hal_msp.c)(0x68F8700A)(--c99 -c --cpu Cortex-M3 -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User/RS -I ../User/DEBUG -I ../User/Jetson -I ../User -I ../User/ADC-I.\RTE\_RS01_SampleProgram-ID:\Keil_v5\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Keil_v5\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o rs01_sampleprogram\stm32f1xx_hal_msp.o --omf_browse rs01_sampleprogram\stm32f1xx_hal_msp.crf --depend rs01_sampleprogram\stm32f1xx_hal_msp.d)
 I (../Inc/main.h)(0x68FF34D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x68F75833)
@@ -721,7 +721,7 @@ F (..\User\RS\Robstride.h)(0x68761209)()
 F (..\User\DEBUG\debugc.h)(0x68F87456)()
 F (..\User\Jetson\jetson_comm.c)(0x6900AF27)(--c99 -c --cpu Cortex-M3 -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User/RS -I ../User/DEBUG -I ../User/Jetson -I ../User -I ../User/ADC-I.\RTE\_RS01_SampleProgram-ID:\Keil_v5\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Keil_v5\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o rs01_sampleprogram\jetson_comm.o --omf_browse rs01_sampleprogram\jetson_comm.crf --depend rs01_sampleprogram\jetson_comm.d)
 I (..\User\Jetson\jetson_comm.h)(0x68FB3A52)
-I (../User/protocol.h)(0x69004D20)
+I (../User/protocol.h)(0x6902F8F2)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025237E)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x68F75833)
 I (../Inc/stm32f1xx_hal_conf.h)(0x68F8700A)
@@ -753,7 +753,7 @@ I (../User/DEBUG/debugc.h)(0x68F87456)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x60252376)
 F (..\User\Jetson\jetson_comm.h)(0x68FB3A52)()
-F (..\User\protocol.h)(0x69004D20)()
+F (..\User\protocol.h)(0x6902F8F2)()
 F (..\User\ADC\adc_comm.c)(0x6900ACBC)(--c99 -c --cpu Cortex-M3 -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User/RS -I ../User/DEBUG -I ../User/Jetson -I ../User -I ../User/ADC-I.\RTE\_RS01_SampleProgram-ID:\Keil_v5\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Keil_v5\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o rs01_sampleprogram\adc_comm.o --omf_browse rs01_sampleprogram\adc_comm.crf --depend rs01_sampleprogram\adc_comm.d)
 I (..\User\ADC\adc_comm.h)(0x690047DA)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x68F75833)
