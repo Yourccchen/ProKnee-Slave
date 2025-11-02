@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xE</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../User/RS;../User/DEBUG;../User/Jetson;../User;../User/ADC</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../User/RS;../User/DEBUG;../User/Jetson;../User;../User/ADC;../User/IMU</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1503,6 +1503,31 @@
               <FileName>adc_comm.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\User\ADC\adc_comm.h</FilePath>
+            </File>
+            <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\IMU\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\IMU\imu.h</FilePath>
+            </File>
+            <File>
+              <FileName>REG.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\IMU\REG.h</FilePath>
+            </File>
+            <File>
+              <FileName>wit_c_sdk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\IMU\wit_c_sdk.c</FilePath>
+            </File>
+            <File>
+              <FileName>wit_c_sdk.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\IMU\wit_c_sdk.h</FilePath>
             </File>
           </Files>
         </Group>

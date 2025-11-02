@@ -30,6 +30,7 @@
 #include <string.h>
 #include "debugc.h"
 #include "RobStride.h"
+#include "imu.h"
 extern "C" {
 #include "protocol.h"
 #include "jetson_comm.h"
@@ -108,6 +109,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
   MX_USART2_UART_Init();
+  MX_UART5_Init();
   /* USER CODE BEGIN 2 */
   CAN_FilterStrue.FilterBank = 0; 
   CAN_FilterStrue.FilterMode = CAN_FILTERMODE_IDMASK; 
@@ -123,6 +125,7 @@ int main(void)
   DEBUGC_UartInit();
   JETSON_Init();
   ADC_Init();
+  IMU_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -136,43 +139,43 @@ int main(void)
     {
         g_new_jetson_data_flag = 0; // 清除标志位
     } 
-
-    // 准备并发送数据给 Jetson,填充要发送的数据
+    // 填充要发送的数据
      g_stm_tx_data.chf[0]=RobStride_01.Pos_Info.Angle;
      g_stm_tx_data.chf[1]=RobStride_01.Pos_Info.Speed;
      g_stm_tx_data.chf[2]=RobStride_01.Pos_Info.Torque;
      g_stm_tx_data.chf[3]=ADC_GetTorque();     
      g_stm_tx_data.chf[4]=RobStride_01.Pos_Info.Temp;
      g_stm_tx_data.chf[5]=ADC_GetResilience(); 
-
-    usart_printf("%.2f,%.2f,%.2f, %.2f\r\n", 
-                      g_jetson_rx_data.chf[0],
-                      g_stm_tx_data.chf[0],
-                      g_stm_tx_data.chf[2], 
-                      g_stm_tx_data.chf[3]);
-    
+    // 调试信息打印
+    // usart_printf("%.2f,%.2f,%.2f,%.2f\r\n", 
+    //                   g_jetson_rx_data.chf[0],
+    //                   g_stm_tx_data.chf[0],
+    //                   g_stm_tx_data.chf[2], 
+    //                   g_stm_tx_data.chf[3]);
+    // IMU信息打印
+    usart_printf("IMU Angle: Roll=%.2f, Pitch=%.2f, Yaw=%.2f\r\n", 
+                  g_sAngle.fAngle[0], 
+                  g_sAngle.fAngle[1], 
+                  g_sAngle.fAngle[2]);
      // 调用发送函数
-     JETSON_SendData(&g_stm_tx_data);
-    
-    //  usart_printf("%f,%f,%f\r\n",RobStride_01.Pos_Info.Angle,RobStride_01.Pos_Info.Speed,RobStride_01.Pos_Info.Torque);
-    //  uint8_t test_message[] = "Test123\r\n";
-    //  HAL_UART_Transmit(&huart2, test_message, sizeof(test_message) - 1, 100);  
-
+    JETSON_SendData(&g_stm_tx_data);
     switch(mode)
     {
         // ===== 普通模式接口 =====
-        case 0: // 使能（普通模式）
+       case 0: // 使能（普通模式）
             RobStride_01.Enable_Motor();
+            HAL_Delay(10); // 增加一个短暂延时，确保驱动器准备好
             break;
         case 1: // 失能（普通模式）
             RobStride_01.Disenable_Motor(1);
             break;
         case 2: // 运控模式
             HAL_Delay(5);
-            RobStride_01.RobStride_Motor_move_control(5, 0, 0, 0.0, 0.0);
-            break;
+            RobStride_01.RobStride_Motor_move_control(0, Debug_Param().pos_targetAngle, 0, Debug_Param().pos_kp, Debug_Param().pos_kd);//Torque, Angle, Speed, Kp, Kd
+//            RobStride_01.RobStride_Motor_move_control(0,1,0,10,0.4);
+        break;
         case 3: // PP位置模式
-            RobStride_01.RobStride_Motor_Pos_control(2, g_jetson_rx_data.chf[0]);
+            RobStride_01.RobStride_Motor_Pos_control(0.5, 2);//g_jetson_rx_data.chf[0]);
             HAL_Delay(5);
             break;
         case 4:	//CSP位置模式
@@ -199,7 +202,6 @@ int main(void)
         case 10: // 协议切换（如切MIT协议/Canopen/私有协议）
             RobStride_01.RobStride_Motor_MotorModeSet(0x02); // 0x02=MIT
             break;
-
         // ===== MIT模式接口（只能用MIT专用函数！） =====
         case 11: // MIT 使能
             RobStride_01.RobStride_Motor_MIT_Enable();
@@ -249,11 +251,11 @@ int main(void)
         case 23: // MIT 协议切换（如切MIT协议/Canopen/私有协议）
             RobStride_01.RobStride_Motor_MIT_MotorModeSet(0x00);
             break;
-
         default:
             break;
     }
-		HAL_Delay(50);
+    mode = 3;
+	HAL_Delay(50);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -318,7 +320,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 		}
 	}	
 }
-
 /* USER CODE END 4 */
 
 /**

@@ -27,6 +27,8 @@
 "rs01_sampleprogram\robstride01.o"
 "rs01_sampleprogram\jetson_comm.o"
 "rs01_sampleprogram\adc_comm.o"
+"rs01_sampleprogram\imu.o"
+"rs01_sampleprogram\wit_c_sdk.o"
 --strict --scatter "RS01_SampleProgram\RS01_SampleProgram.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
