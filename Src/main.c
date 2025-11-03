@@ -147,18 +147,24 @@ int main(void)
      g_stm_tx_data.chf[4]=RobStride_01.Pos_Info.Temp;
      g_stm_tx_data.chf[5]=ADC_GetResilience(); 
     // 调试信息打印
-    // usart_printf("%.2f,%.2f,%.2f,%.2f\r\n", 
-    //                   g_jetson_rx_data.chf[0],
-    //                   g_stm_tx_data.chf[0],
-    //                   g_stm_tx_data.chf[2], 
-    //                   g_stm_tx_data.chf[3]);
+    usart_printf("%.2f,%.2f,%.2f,%.2f,%.2f\r\n", 
+                      g_jetson_rx_data.chf[0],
+                      g_stm_tx_data.chf[0],
+                      g_stm_tx_data.chf[2], 
+                      g_stm_tx_data.chf[3],
+                      g_stm_tx_data.chf[5]);
+    //ADC打印
+    //  usart_printf("%.2f,%.2f\r\n", 
+    //                   g_stm_tx_data.chf[3],
+    //                   g_stm_tx_data.chf[5]);
     // IMU信息打印
-    usart_printf("IMU Angle: Roll=%.2f, Pitch=%.2f, Yaw=%.2f\r\n", 
-                  g_sAngle.fAngle[0], 
-                  g_sAngle.fAngle[1], 
-                  g_sAngle.fAngle[2]);
+    // usart_printf("IMU Angle: Roll=%.2f, Pitch=%.2f, Yaw=%.2f\r\n", 
+    //               g_sAngle.fAngle[0], 
+    //               g_sAngle.fAngle[1], 
+    //               g_sAngle.fAngle[2]);
      // 调用发送函数
     JETSON_SendData(&g_stm_tx_data);
+  
     switch(mode)
     {
         // ===== 普通模式接口 =====
@@ -170,9 +176,9 @@ int main(void)
             RobStride_01.Disenable_Motor(1);
             break;
         case 2: // 运控模式
-            HAL_Delay(5);
-            RobStride_01.RobStride_Motor_move_control(0, Debug_Param().pos_targetAngle, 0, Debug_Param().pos_kp, Debug_Param().pos_kd);//Torque, Angle, Speed, Kp, Kd
-//            RobStride_01.RobStride_Motor_move_control(0,1,0,10,0.4);
+            HAL_Delay(5);//Torque, Angle, Speed, Kp, Kd
+//           RobStride_01.RobStride_Motor_move_control(0, Debug_Param().pos_targetAngle, 0, Debug_Param().pos_kp, Debug_Param().pos_kd);
+           RobStride_01.RobStride_Motor_move_control(0,g_jetson_rx_data.chf[0],0,14,1.5); 
         break;
         case 3: // PP位置模式
             RobStride_01.RobStride_Motor_Pos_control(0.5, 2);//g_jetson_rx_data.chf[0]);
@@ -254,7 +260,15 @@ int main(void)
         default:
             break;
     }
-    mode = 3;
+    mode = 2;
+    if (state_flag == 1)
+    {
+        mode = 2;
+    }
+    else
+    {
+        mode = 1;
+    }
 	HAL_Delay(50);
     /* USER CODE END WHILE */
 

@@ -16,7 +16,7 @@ DebugParam debugParam;
 char debugRvBuff[DEBUG_RVSIZE] = { 0 };  //存放串口（调试用）接收的第一手数据
 char debugBuff[DEBUG_RVSIZE] = { 0 };    //进行一定变换
 char *pEnd;
-int16_t state_flag = 0;
+int16_t state_flag = 1;
 
 void DEBUGC_UartInit(void)
 {
@@ -63,6 +63,7 @@ void DEBUGC_UartIdleCallback(UART_HandleTypeDef* huart)
     else if (debugRvBuff[5] == MAOHAO && debugRvBuff[6] == STOP) 
         state_flag = 0;
 
+    //调试参数赋值
     switch (debugRvBuff[0])
     {
         case SPEED_LOOP:

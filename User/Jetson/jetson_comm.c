@@ -70,7 +70,6 @@ static void ProcessNewByte(uint8_t byte)
                 // 2. 设置标志位，通知 main()
                 g_new_jetson_data_flag = 1; 
             }
-            
             // 无论包尾是否正确，都必须回到 "等待包头" 状态
             // (如果包尾错了，就丢弃这个包)
             parse_state = WAIT_HEADER;

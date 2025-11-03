@@ -34,7 +34,7 @@ typedef struct {
     int32_t pos_maxOutput;
     int32_t pos_maxIntegral;  //800
     int32_t pos_maxOutStep;    //改大了速度跟不上   就是这个问题 导致速度跟不上，到达目标位置附近小幅度震荡（正负3左右）
-    int32_t pos_targetAngle;
+    float pos_targetAngle;
 } DebugParam;
 
 #define STARTPID  0x70         //start_pid
