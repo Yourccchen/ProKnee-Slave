@@ -21,7 +21,8 @@ chf[2] : torque_target
 ********
 chs[0] : 
 ********
-chb[0] : mode
+chb[0] : mode 0是初始模式 9是保护模式 其余不做判读
+chb[1] : control_mode  1是力矩控制 0是位置控制
 */
 /* TxDataStruct
 chf[0] : Angle

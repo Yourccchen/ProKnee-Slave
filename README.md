@@ -4,17 +4,28 @@
 
 #### **各串口用处**
 
-- USART1:与ADC板通信
-- USART2:用于DEBUG，将数据在电脑上可视化
-- USART3:与Jetson板通信
+- USART1：与ADC板通信(TX PA9 RX PA10) （ADC板RX与TX丝印标反）
+- USART2：用于DEBUG，将数据在电脑上可视化(TX PA2 RX PA3)
+- USART3：与Jetson板通信(TX PC10 RX PC11)
+- UART5：与IMU通信(TX PC12 RX PD2)
 
-用户自定义函数放在User文件夹
+#### 功能函数文件夹
+
+用户自定义函数均放在User文件夹
+
+ADC：存放与读取ADC采集数据的相关代码 
 
 DEBUG：存放用于DEBUG打印数据的相关代码
 
+IMU：存放读取IMU数据的相关代码
+
 Jetson：存放与Jetson通信的相关代码
 
+PID：存放PID计算代码	
+
 RS：存放电机控制的相关代码
+
+TORQUE：存放力矩闭环计算的相关代码
 
 protocol.h：定义消息结构体形式
 

@@ -31,6 +31,7 @@
 #include "debugc.h"
 #include "RobStride.h"
 #include "imu.h"
+#include "torque_control.h"
 extern "C" {
 #include "protocol.h"
 #include "jetson_comm.h"
@@ -56,7 +57,7 @@ extern "C" {
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-CommDataStruct g_stm_tx_data;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -73,7 +74,7 @@ uint8_t mode = 0;
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+CommDataStruct g_stm_tx_data;
 /* USER CODE END 0 */
 
 /**
@@ -121,24 +122,27 @@ int main(void)
   HAL_CAN_ConfigFilter(&hcan, &CAN_FilterStrue);
   HAL_CAN_Start(&hcan); 
   HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING); 
-  
+  /*初始化开始*/
   DEBUGC_UartInit();
   JETSON_Init();
   ADC_Init();
   IMU_Init();
+  TorqueControl_Init();
+  /*初始化结束*/
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // 每一轮循环都调用轮询器,它会在后台自动接收并解析数据包
+    /*接收串口数据开始*/
     JETSON_PollReceiver();
     ADC_PollReceiver();
     if (g_new_jetson_data_flag)
     {
         g_new_jetson_data_flag = 0; // 清除标志位
-    } 
+    }
+    /*接收串口数据开始结束*/
     // 填充要发送的数据
      g_stm_tx_data.chf[0]=RobStride_01.Pos_Info.Angle;
      g_stm_tx_data.chf[1]=RobStride_01.Pos_Info.Speed;
@@ -146,13 +150,20 @@ int main(void)
      g_stm_tx_data.chf[3]=ADC_GetTorque();     
      g_stm_tx_data.chf[4]=RobStride_01.Pos_Info.Temp;
      g_stm_tx_data.chf[5]=ADC_GetResilience(); 
-    // 调试信息打印
+    // 发送数据给上位机
+    JETSON_SendData(&g_stm_tx_data);
+
+    /*调试信息打印*/
     usart_printf("%.2f,%.2f,%.2f,%.2f,%.2f\r\n", 
                       g_jetson_rx_data.chf[0],
                       g_stm_tx_data.chf[0],
                       g_stm_tx_data.chf[2], 
                       g_stm_tx_data.chf[3],
                       g_stm_tx_data.chf[5]);
+//    usart_printf("%.2f,%d,%d\r\n", 
+//                      g_jetson_rx_data.chf[0],
+//                      g_jetson_rx_data.chb[0],
+//                      g_jetson_rx_data.chb[1]);
     //ADC打印
     //  usart_printf("%.2f,%.2f\r\n", 
     //                   g_stm_tx_data.chf[3],
@@ -162,9 +173,8 @@ int main(void)
     //               g_sAngle.fAngle[0], 
     //               g_sAngle.fAngle[1], 
     //               g_sAngle.fAngle[2]);
-     // 调用发送函数
-    JETSON_SendData(&g_stm_tx_data);
-  
+    /*调试信息打印*/
+
     switch(mode)
     {
         // ===== 普通模式接口 =====
@@ -177,9 +187,9 @@ int main(void)
             break;
         case 2: // 运控模式
             HAL_Delay(5);//Torque, Angle, Speed, Kp, Kd
-//           RobStride_01.RobStride_Motor_move_control(0, Debug_Param().pos_targetAngle, 0, Debug_Param().pos_kp, Debug_Param().pos_kd);
-           RobStride_01.RobStride_Motor_move_control(0,g_jetson_rx_data.chf[0],0,14,1.5); 
-        break;
+//          RobStride_01.RobStride_Motor_move_control(0, Debug_Param().pos_targetAngle, 0, Debug_Param().pos_kp, Debug_Param().pos_kd);
+            RobStride_01.RobStride_Motor_move_control(0,g_jetson_rx_data.chf[0],0,14,1.5); 
+            break;
         case 3: // PP位置模式
             RobStride_01.RobStride_Motor_Pos_control(0.5, 2);//g_jetson_rx_data.chf[0]);
             HAL_Delay(5);
@@ -261,13 +271,13 @@ int main(void)
             break;
     }
     mode = 2;
-    if (state_flag == 1)
+    if (g_jetson_rx_data.chb[0] == 0)
     {
-        mode = 2;
+        mode = 1;
     }
     else
     {
-        mode = 1;
+        mode = 2;
     }
 	HAL_Delay(50);
     /* USER CODE END WHILE */

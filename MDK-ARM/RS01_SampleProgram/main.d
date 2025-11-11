@@ -40,6 +40,7 @@ rs01_sampleprogram\main.o: ../User/RS/RobStride.h
 rs01_sampleprogram\main.o: ../User/IMU/imu.h
 rs01_sampleprogram\main.o: ../User/IMU/wit_c_sdk.h
 rs01_sampleprogram\main.o: ../User/IMU/REG.h
+rs01_sampleprogram\main.o: ../User/TORQUE/torque_control.h
 rs01_sampleprogram\main.o: ../User/protocol.h
 rs01_sampleprogram\main.o: ../User/Jetson/jetson_comm.h
 rs01_sampleprogram\main.o: ../User/ADC/adc_comm.h

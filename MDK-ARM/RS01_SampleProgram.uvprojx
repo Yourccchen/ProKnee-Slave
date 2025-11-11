@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xE</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../User/RS;../User/DEBUG;../User/Jetson;../User;../User/ADC;../User/IMU</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../User/RS;../User/DEBUG;../User/Jetson;../User;../User/ADC;../User/IMU;../User/PID;../User/TORQUE</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1528,6 +1528,26 @@
               <FileName>wit_c_sdk.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\User\IMU\wit_c_sdk.h</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\PID\pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\PID\pid.h</FilePath>
+            </File>
+            <File>
+              <FileName>torque_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\TORQUE\torque_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>torque_control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\TORQUE\torque_control.h</FilePath>
             </File>
           </Files>
         </Group>
